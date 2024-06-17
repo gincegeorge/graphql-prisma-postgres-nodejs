@@ -8,6 +8,13 @@ const queries = {
     const token = await UserService.getUserToken(payload);
     return token;
   },
+  getCurrentLoggedInUser: async (_: any, parameters: any, context: any) => {
+    if (context && context.user) {
+      const user = await UserService.getUserById(context.user.id);
+      return user;
+    }
+    throw new Error("I don't know who you are!!");
+  },
 };
 
 const mutations = {

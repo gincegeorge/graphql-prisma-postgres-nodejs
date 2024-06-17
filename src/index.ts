@@ -2,6 +2,7 @@ import express from "express";
 import { expressMiddleware } from "@apollo/server/express4";
 import createGraphqlServer from "./graphql";
 import dotenv from "dotenv";
+import { UserService } from "./services/user";
 
 (async function () {
   const app = express();
@@ -14,7 +15,21 @@ import dotenv from "dotenv";
     res.json({ message: "Server running" });
   });
 
-  app.use("/graphql", expressMiddleware(await createGraphqlServer()));
+  app.use(
+    "/graphql",
+    expressMiddleware(await createGraphqlServer(), {
+      context: async ({ req }) => {
+        const token = req.headers["token"];
+        try {
+          const user = UserService.decodeJWTToken(token as string);
+          return { user };
+        } catch (error) {
+          console.error("Error decoding JWT token:", error);
+          return { user: null };
+        }
+      },
+    })
+  );
 
   app.listen(PORT, () => {
     console.log(`Server running at ${PORT}`);
