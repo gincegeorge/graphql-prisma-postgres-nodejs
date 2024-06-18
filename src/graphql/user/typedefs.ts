@@ -6,4 +6,11 @@ export const typeDefs = `#graphql
         email:String!
         profileImageUrl:String
     }
+
+    type Post{
+        id: ID!, 
+        title:String!
+        content:String
+        authorId: ID!
+    }
 `;

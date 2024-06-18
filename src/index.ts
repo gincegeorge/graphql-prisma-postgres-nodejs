@@ -24,7 +24,6 @@ import { UserService } from "./services/user";
           const user = UserService.decodeJWTToken(token as string);
           return { user };
         } catch (error) {
-          console.error("Error decoding JWT token:", error);
           return { user: null };
         }
       },

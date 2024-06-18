@@ -19,9 +19,11 @@ async function createGraphqlServer() {
     `,
     resolvers: {
       Query: {
-        ...User.resolvers.queries
+        ...User.resolvers.queries,
       },
-      Mutation: { ...User.resolvers.mutations },
+      Mutation: {
+        ...User.resolvers.mutations,
+      },
     },
   });
 
